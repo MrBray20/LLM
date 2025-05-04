@@ -3,18 +3,21 @@ from llama import LLAMA
 from template import Template
 from gemma import Gemma
 
-# modelMistral = Mistral()
-# promptMistral = Template.promptSentimentAnalysis("The conference was well-organized, and the speakers were very knowledgeable.")
+modelMistral = Mistral()
+promptMistral = Template.promptSentimentAnalysis("The conference was well-organized, and the speakers were very knowledgeable.")
 
-# print(modelMistral.generateText(promptMistral))
+print(modelMistral.generateTextPipe(promptMistral))
 
-# modelLLAMA = LLAMA()
+modelLLAMA = LLAMA()
 
-# promptLLAMA = Template.promptSentimentAnalysis("The food at this restaurant was amazing, but the service was a bit slow.")
+promptLLAMA = Template.promptSentimentAnalysis("The food at this restaurant was amazing, but the service was a bit slow.")
 
-# print(modelLLAMA.generateText(promptLLAMA))
+print(modelLLAMA.generateTextPipe(promptLLAMA))
 
 modelGemma = Gemma()
 promptGemma = Template.promptSentimentAnalysis("The food at this restaurant was amazing, but the service was a bit slow.")
 
 print(modelGemma.generateTextPipe(promptGemma))
+
+
+

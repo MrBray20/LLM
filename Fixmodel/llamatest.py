@@ -160,7 +160,7 @@ model_name = "google/gemma-2b-it"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
 # Buat pipeline untuk text-generation
-pipe = pipeline(
+pipe = pi(
     "text-generation",
     model=model_name,
     tokenizer=tokenizer,
