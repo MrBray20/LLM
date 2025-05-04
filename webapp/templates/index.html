@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LLM Evaluator</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="p-4">
+    <div class="container">
+        <h1 class="mb-4">Evaluasi LLM (Offline)</h1>
+
+        <form method="POST">
+            <div class="mb-3">
+                <label class="form-label">Prompt</label>
+                <textarea class="form-control" name="prompt" required>{{ prompt or "" }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Jawaban Referensi</label>
+                <textarea class="form-control" name="reference" required>{{ reference or "" }}</textarea>
+            </div>
+            <button class="btn btn-primary">Generate & Evaluasi</button>
+        </form>
+
+        {% if results %}
+            <hr>
+            <h2>Hasil:</h2>
+            {% for name, data in results.items() %}
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <strong>{{ name }}</strong>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Output:</strong> {{ data.output }}</p>
+                        <p><strong>BLEU:</strong> {{ data.scores["BLEU"] }},
+                           <strong>METEOR:</strong> {{ data.scores["METEOR"] }},
+                           <strong>ROUGE-1:</strong> {{ data.scores["ROUGE-1"] }},
+                           <strong>ROUGE-L:</strong> {{ data.scores["ROUGE-L"] }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</body>
+</html>
