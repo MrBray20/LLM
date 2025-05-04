@@ -34,7 +34,7 @@ class ModelStruktur:
         # Generate teks
         result = generator(
             prompt,
-            max_new_tokens=256,
+            max_new_tokens=500,
             temperature=0.7,
             do_sample=True
         )
