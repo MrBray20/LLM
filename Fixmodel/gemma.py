@@ -3,7 +3,7 @@ from ModelStruktur import ModelStruktur
 
 
 class Gemma(ModelStruktur):
-    def __init__(self,model_name="google/gemma-2b-it"):
+    def __init__(self,model_name="unsloth/gemma-2b-it-bnb-4bit"):
         bnb_config = BitsAndBytesConfig(
             load_in_4bit=True,
             bnb_4bit_quant_type="nf4",

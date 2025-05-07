@@ -12,3 +12,6 @@ class Template:
     def promptStory(genre,title):
         prompt = f"""Write a {genre} story titled "{title}". The story should be at least 500 words long."""
         return prompt
+    
+    def promptBebas(text):
+        return text

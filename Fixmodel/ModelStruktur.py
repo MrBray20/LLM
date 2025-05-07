@@ -9,7 +9,15 @@ class ModelStruktur:
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
         self.model = AutoModelForCausalLM.from_pretrained(model_name, **model_kwargs)
         
-        self.model.to(self.device)
+        # self.model.to(self.device)
+        
+        self.pipeline = pipeline(
+            "text-generation",
+            model=self.model,
+            tokenizer=self.tokenizer,
+            device_map="auto",
+            torch_dtype=torch.float16
+        )
         
     def generateText(self,prompt):
         input_ids = self.tokenizer(prompt, return_tensors="pt").to("cuda")
@@ -22,19 +30,10 @@ class ModelStruktur:
         return self.tokenizer.decode(outputs[0], skip_special_tokens=True)
     
     def generateTextPipe(self,prompt):
-        
-        generator = pipeline(
-            "text-generation",
-            model=self.model,
-            device_map="auto",  # Gunakan GPU jika tersedia
-            tokenizer=self.tokenizer,
-            torch_dtype=torch.float16
-        )
-
         # Generate teks
-        result = generator(
+        result = self.pipeline(
             prompt,
-            max_new_tokens=500,
+            max_new_tokens=200,
             temperature=0.7,
             do_sample=True
         )

@@ -154,17 +154,18 @@ bnb_config = BitsAndBytesConfig(
     bnb_4bit_quant_type="nf4",
     bnb_4bit_compute_dtype=torch.float16
 )
-
+# unsloth/gemma-2b-it-bnb-4bit
 # Load tokenizer dan model
-model_name = "google/gemma-2b-it"
+# "unsloth/Llama-3.2-3B-Instruct-bnb-4bit"
+model_name = "unsloth/mistral-7b-instruct-v0.3-bnb-4bit"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
 # Buat pipeline untuk text-generation
-pipe = pi(
+pipe = pipeline(
     "text-generation",
     model=model_name,
     tokenizer=tokenizer,
-    device_map="auto",  # Auto-load ke GPU jika tersedia
+    # device_map="auto",  # Auto-load ke GPU jika tersedia
     # quantization_config=bnb_config,  # Aktifkan 4-bit
     torch_dtype=torch.float16
 )

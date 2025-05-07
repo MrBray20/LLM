@@ -3,7 +3,7 @@ import torch
 from ModelStruktur import ModelStruktur
 
 class LLAMA(ModelStruktur):
-    def __init__(self,model_name="meta-llama/Llama-3.2-3B-Instruct"):
+    def __init__(self,model_name="unsloth/Llama-3.2-3B-Instruct-bnb-4bit"):
         
         bnb_config = BitsAndBytesConfig(
             load_in_4bit=True,
