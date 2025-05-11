@@ -33,7 +33,7 @@ class ModelStruktur:
         # Generate teks
         result = self.pipeline(
             prompt,
-            max_new_tokens=200,
+            max_new_tokens=100,
             temperature=0.7,
             do_sample=True
         )

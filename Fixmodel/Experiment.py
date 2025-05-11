@@ -58,21 +58,24 @@ try:
         resultPredicMistral.append(jsontextMistral)
         print("Mistral")
         print(jsontextMistral)
+        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
         text_indices.append(index)
         promptLLAMA = Template.promptSentimentAnalysis(teks)
         resultLLAMA = modelLLAMA.generateTextPipe(promptLLAMA)
+        print(resultLLAMA)
         jsontextLLAMA = json.loads(re.search(json_pattern,resultLLAMA).group())
         resultpredicLLAMA.append(jsontextLLAMA)
         print("LLAMA")
         print(jsontextLLAMA)
-        
+        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
         promptGemma = Template.promptSentimentAnalysis(teks)
         resultGEmma = modelGemma.generateTextPipe(promptGemma)
         print(resultGEmma)
         jsontextGemma = json.loads(re.search(json_pattern,resultGEmma).group())
         resultpredicGemma.append(jsontextGemma)
         print("Gemma")
-        print(resultGEmma)
+        print(jsontextGemma)
+        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
 except KeyboardInterrupt:
     print("\nKeyboardInterrupt detected. Saving current result...")
 finally:
@@ -90,7 +93,7 @@ finally:
         }).set_index('index')
     
     
-    file_path = "resultPredicModel.csv"
+    file_path = "resultPredicMode2-1.csv"
     write_header = not pd.io.common.file_exists(file_path)
     
     dfpredicModel.to_csv(file_path, mode='a', header=write_header)
