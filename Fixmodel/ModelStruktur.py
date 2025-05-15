@@ -29,6 +29,15 @@ class ModelStruktur:
         
         return self.tokenizer.decode(outputs[0], skip_special_tokens=True)
     
+    def generateTextPipeArgs(self,prompt,model_kwargs=None):
+        if model_kwargs is None:
+            model_kwargs={}
+        result = self.pipeline(
+            prompt,
+            **model_kwargs
+        )
+        return (result[0]['generated_text'])
+    
     def generateTextPipe(self,prompt):
         # Generate teks
         result = self.pipeline(
