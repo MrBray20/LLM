@@ -1,0 +1,10 @@
+model/
+
+# Abaikan file backup
+*.bak
+
+# Abaikan file log
+*.log
+
+# Abaikan file sementara editor
+*.swp
