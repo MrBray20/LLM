@@ -99,6 +99,7 @@
 from transformers import pipeline, TextStreamer
 import torch
 
+
 pipeline = pipeline(model="unsloth/mistral-7b-instruct-v0.3-bnb-4bit", torch_dtype=torch.bfloat16)
 prompt = """Let's go through this step-by-step:
 1. You start with 15 muffins.
@@ -109,8 +110,11 @@ prompt = """Let's go through this step-by-step:
 If you eat 6 muffins, how many are left?"""
 
 outputs = pipeline(prompt, max_new_tokens=100, do_sample=True, top_k=10)
-for output in outputs:
-    print(f"Result: {output['generated_text']}")
+print(outputs)
+# for output in outputs:
+#     print(f"Result: {output['generated_text']}")
+
+
 # Result: Let's go through this step-by-step:
 # 1. You start with 15 muffins.
 # 2. You eat 2 muffins, leaving you with 13 muffins.
@@ -119,4 +123,4 @@ for output in outputs:
 # 5. Your partner eats 2 muffins, leaving you with 12 muffins.
 # If you eat 6 muffins, how many are left?
 # Answer: 6
-TextStreamer
+# TextStreamer

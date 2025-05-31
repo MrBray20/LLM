@@ -1,13 +1,10 @@
-from transformers import AutoModelForCausalLM, BitsAndBytesConfig, AutoModel
+from transformers import AutoModelForCausalLM, BitsAndBytesConfig, AutoModel, AutoTokenizer
 
-bnb_config = BitsAndBytesConfig(
-    load_in_4bit=True,
-    bnb_4bit_quant_type="nf4",
-    bnb_4bit_compute_dtype="float16"
-)
+model_path = "unsloth/gemma-2b-it-bnb-4bit"
+path = "D:\SKRIPSI\Code Program\Fixmodel\model\Gemma"
 
-model = AutoModel.from_pretrained("meta-llama/Llama-3.2-3B-Instruct",quantization_config=bnb_config)
+model = AutoModelForCausalLM.from_pretrained(model_path)
+model.save_pretrained(path)
 
-# print(model.config.name_or_path) 
-
-model.save_pretrained("D:\SKRIPSI\Code Program\Fixmodel\model\LLAMA", safe_serialization=True, max_shard_size="10GB")
+tokenizer = AutoTokenizer.from_pretrained(model_path)
+tokenizer.save_pretrained(path)

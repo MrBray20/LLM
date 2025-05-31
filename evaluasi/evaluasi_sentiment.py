@@ -39,6 +39,84 @@ def evaluate_sentiment_analysis(y_true, y_pred, labels=['positive', 'neutral', '
     dict
         Dictionary berisi berbagai metrik evaluasi
     """
+    # Check Unique
+    print("Label unik dalam prediksi:", y_pred.unique())
+    
+    # Confusion Matrix
+    conf_mat = confusion_matrix(y_true, y_pred, labels=labels)
+    conf_mat_df = pd.DataFrame(conf_mat, 
+                               index=[f"Actual: {label}" for label in labels],
+                               columns=[f"Predicted: {label}" for label in labels])
+    
+    # Classification Report
+    report = classification_report(y_true, y_pred, labels=labels, output_dict=True)
+    
+    # Accuracy
+    acc = accuracy_score(y_true, y_pred)
+    
+    # Precision, Recall, F1
+    prec, rec, f1, sup = precision_recall_fscore_support(y_true, y_pred, labels=labels)
+    
+    # Print Hasil Evaluasi
+    print("------- Hasil Evaluasi Model Analisis Sentimen -------")
+    
+    print("\nConfusion Matrix (dengan label):")
+    print(conf_mat_df)
+    
+    print("\nClassification Report:")
+    print(classification_report(y_true, y_pred, labels=labels))
+    
+    print(f"\nAkurasi: {acc:.4f}")
+    
+    print("\nMetrik per Kelas:")
+    for i, label in enumerate(labels):
+        print(f"{label}:")
+        print(f"  - Precision: {prec[i]:.4f}")
+        print(f"  - Recall: {rec[i]:.4f}")
+        print(f"  - F1-Score: {f1[i]:.4f}")
+        print(f"  - Support: {sup[i]}")
+        
+    # Visualisasi Confusion Matrix
+    plt.figure(figsize=(8,6))
+    sns.heatmap(conf_mat_df, annot=True, fmt='d', cmap='Blues')
+    plt.title("Confusion Matrix")
+    plt.ylabel("Actual Label")
+    plt.xlabel("Predicted Label")
+    plt.tight_layout()
+    plt.show()
+    
+    # Return hasil evaluasi
+    return {
+        'confusion_matrix': conf_mat_df,
+        'classification_report': report,
+        'accuracy': acc,
+        'metrics_by_class': pd.DataFrame({
+            'Precision': prec,
+            'Recall': rec,
+            'F1-Score': f1,
+            'Support': sup
+        }, index=labels)
+    }
+
+# def evaluate_sentiment_analysis(y_true, y_pred, labels=['positive', 'neutral', 'negative']):
+    
+    """
+    Fungsi untuk mengevaluasi model analisis sentimen
+    
+    Parameters:
+    -----------
+    y_true : array-like
+        Label sebenarnya
+    y_pred : array-like
+        Label prediksi
+    labels : list
+        Daftar label yang digunakan
+        
+    Returns:
+    --------
+    dict
+        Dictionary berisi berbagai metrik evaluasi
+    """
     #Check Unique
     print(y_pred.unique())
     
@@ -90,60 +168,131 @@ def proses_pandas(data):
     return res 
 
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-test1 = pd.read_csv(r"D:\SKRIPSI\Code Program\evaluasi\test1.csv", delimiter=',')
-test1 = proses_pandas(test1)
-print(test1)
-test1_mistral = test1['sentiment_mistral']
-test1_llama = test1['sentiment_llama']
-test1_gemma = test1['sentiment_gemma']
+# test1 = pd.read_csv(r"D:\SKRIPSI\Code Program\evaluasi\test1.csv", delimiter=',')
+# test1 = proses_pandas(test1)
+# print(test1)
+# test1_mistral = test1['sentiment_mistral']
+# test1_llama = test1['sentiment_llama']
+# test1_gemma = test1['sentiment_gemma']
 
-#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+# #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+# test2 = pd.read_csv(r"D:\SKRIPSI\Code Program\evaluasi\test2.csv", delimiter=',')
+# test2 = proses_pandas(test2)
+
+# test2_mistral = test2['sentiment_mistral']
+# test2_llama = test2['sentiment_llama']
+# test2_gemma = test2['sentiment_gemma']
+
+
+# test3 = pd.read_csv(r"D:\SKRIPSI\Code Program\evaluasi\test3.csv", delimiter=',')
+# test3 = proses_pandas(test3)
+
+# test3_mistral = test3['sentiment_mistral']
+# test3_llama = test3['sentiment_llama']
+# test3_gemma = test3['sentiment_gemma']
+
 
 test2 = pd.read_csv(r"D:\SKRIPSI\Code Program\evaluasi\test2.csv", delimiter=',')
 test2 = proses_pandas(test2)
+
+test2_3000=pd.read_csv(r"D:\SKRIPSI\Code Program\evaluasi\resultPredicMode3000-1.csv", delimiter=',')
+test2_3000=proses_pandas(test2_3000)
+
+test2_mistral_3000 = test2_3000['sentiment_mistral']
+test2_llama_3000 = test2_3000['sentiment_llama']
+test2_gemma_3000 = test2_3000['sentiment_gemma']
 
 test2_mistral = test2['sentiment_mistral']
 test2_llama = test2['sentiment_llama']
 test2_gemma = test2['sentiment_gemma']
 
+test2_mistral_concate=pd.concat([test2_mistral, test2_mistral_3000])
+test2_llama_concate=pd.concat([test2_llama, test2_llama_3000])
+test2_gemma_concate=pd.concat([test2_gemma, test2_gemma_3000])
+
 
 test3 = pd.read_csv(r"D:\SKRIPSI\Code Program\evaluasi\test3.csv", delimiter=',')
 test3 = proses_pandas(test3)
+
+test3_3000=pd.read_csv(r"D:\SKRIPSI\Code Program\evaluasi\resultPredicMode3000-2.csv", delimiter=',')
+test3_3000=proses_pandas(test3_3000)
+
+test3_mistral_3000 = test3_3000['sentiment_mistral']
+test3_llama_3000 = test3_3000['sentiment_llama']
+test3_gemma_3000 = test3_3000['sentiment_gemma']
 
 test3_mistral = test3['sentiment_mistral']
 test3_llama = test3['sentiment_llama']
 test3_gemma = test3['sentiment_gemma']
 
+test3_mistral_concate=pd.concat([test3_mistral, test3_mistral_3000])
+test3_llama_concate=pd.concat([test3_llama, test3_llama_3000])
+test3_gemma_concate=pd.concat([test3_gemma, test3_gemma_3000])
 
-no_index = test1['index']
+no_index = test2['index']
 datatest_predic = pd.read_csv(r"D:\SKRIPSI\Code Program\Fixmodel\archive\test.csv").iloc[no_index]['sentiment']
 
+no_index_3000 = test2_3000['index']
+datatest_predic_3000 = pd.read_csv(r"D:\SKRIPSI\Code Program\Fixmodel\archive\test.csv").iloc[no_index_3000]['sentiment']
+
+datatest_predic_concate=pd.concat([datatest_predic, datatest_predic_3000])
+print(datatest_predic_concate)
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Hasil Mistral >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-print("------------------------------------------- Test 1 Mistral -------------------------------------------")
-evaluate_sentiment_analysis(datatest_predic,test1_mistral)
 print("------------------------------------------- Test 2 Mistral -------------------------------------------")
-evaluate_sentiment_analysis(datatest_predic,test2_mistral)
+evaluate_sentiment_analysis(datatest_predic_concate,test2_mistral_concate)
 print("------------------------------------------- Test 3 Mistral -------------------------------------------")
-evaluate_sentiment_analysis(datatest_predic,test3_mistral)
+evaluate_sentiment_analysis(datatest_predic_concate,test3_mistral_concate)
+# print("------------------------------------------- Test 3 Mistral -------------------------------------------")
+# evaluate_sentiment_analysis(datatest_predic_concate,test3_mistral)
 
 
 print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Hasil LLAMA >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-print("------------------------------------------- Test 1 LLAMA -------------------------------------------")
-evaluate_sentiment_analysis(datatest_predic,test1_llama)
 print("------------------------------------------- Test 2 LLAMA -------------------------------------------")
-evaluate_sentiment_analysis(datatest_predic,test2_llama)
+evaluate_sentiment_analysis(datatest_predic_concate,test2_llama_concate)
 print("------------------------------------------- Test 3 LLAMA -------------------------------------------")
-evaluate_sentiment_analysis(datatest_predic,test3_llama)
+evaluate_sentiment_analysis(datatest_predic_concate,test3_llama_concate)
+# print("------------------------------------------- Test 3 LLAMA -------------------------------------------")
+# evaluate_sentiment_analysis(datatest_predic_concate,test3_llama)
 
 
 
 print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Hasil Gemma >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-print("------------------------------------------- Test 1 Gemma -------------------------------------------")
-evaluate_sentiment_analysis(datatest_predic,test1_gemma)
 print("------------------------------------------- Test 2 Gemma -------------------------------------------")
-evaluate_sentiment_analysis(datatest_predic,test2_gemma)
+evaluate_sentiment_analysis(datatest_predic_concate,test2_gemma_concate)
 print("------------------------------------------- Test 3 Gemma -------------------------------------------")
-evaluate_sentiment_analysis(datatest_predic,test3_gemma)
+evaluate_sentiment_analysis(datatest_predic_concate,test3_gemma_concate)
+# print("------------------------------------------- Test 3 Gemma -------------------------------------------")
+# evaluate_sentiment_analysis(datatest_predic_concate,test3_gemma)
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+# print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Hasil Mistral >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+# print("------------------------------------------- Test 1 Mistral -------------------------------------------")
+# evaluate_sentiment_analysis(datatest_predic,test1_mistral)
+# print("------------------------------------------- Test 2 Mistral -------------------------------------------")
+# evaluate_sentiment_analysis(datatest_predic,test2_mistral)
+# print("------------------------------------------- Test 3 Mistral -------------------------------------------")
+# evaluate_sentiment_analysis(datatest_predic,test3_mistral)
+
+
+# print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Hasil LLAMA >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+# print("------------------------------------------- Test 1 LLAMA -------------------------------------------")
+# evaluate_sentiment_analysis(datatest_predic,test1_llama)
+# print("------------------------------------------- Test 2 LLAMA -------------------------------------------")
+# evaluate_sentiment_analysis(datatest_predic,test2_llama)
+# print("------------------------------------------- Test 3 LLAMA -------------------------------------------")
+# evaluate_sentiment_analysis(datatest_predic,test3_llama)
+
+
+
+# print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Hasil Gemma >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+# print("------------------------------------------- Test 1 Gemma -------------------------------------------")
+# evaluate_sentiment_analysis(datatest_predic,test1_gemma)
+# print("------------------------------------------- Test 2 Gemma -------------------------------------------")
+# evaluate_sentiment_analysis(datatest_predic,test2_gemma)
+# print("------------------------------------------- Test 3 Gemma -------------------------------------------")
+# evaluate_sentiment_analysis(datatest_predic,test3_gemma)
 

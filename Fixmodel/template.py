@@ -51,13 +51,35 @@ class Template:
         - **Setting**: "A spaceship in the year 2150" 
         - **Conflict**:"The crew disappears one by one"
         - **Ending**: Happy  
-        - **Word limit**: 300-500 words  
+        - **Word limit**: 200-500 words  
 
         Additional instructions:  
         - Use vivid descriptions and dialogue to make the story engaging.
         """
         return prompt
         
+    def promptNewSortStoryPromp():
+        prompt=f"""
+            ### Instruction:
+            Write a short story in English that includes the following:
+
+            - Genre: Fantasy, Mystery, Romance
+            - Main Character: A retired detective with a fear of heights
+            - Setting: A spaceship in the year 2150
+            - Conflict: The crew disappears one by one
+            - Ending: Happy ending
+            - Length: 200-500 words
+
+            ### Additional Guidelines:
+            - Begin as the protagonist boards the spaceship.
+            - Introduce romance via a secondary character.
+            - Build tension around the mystery of the crew's disappearance.
+            - Resolve the mystery clearly by the end.
+            - Use vivid descriptions and natural dialogue.
+
+            ### Response:
+            """
+        return prompt
     
     def promptBebas(text):
         return text

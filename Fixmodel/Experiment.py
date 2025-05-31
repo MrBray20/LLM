@@ -6,6 +6,25 @@ import pandas as pd
 import re
 import json
 
+def process_model(model, prompt_func, text, pattern, model_name, retries=1):
+    while True:
+        try:
+            print(f">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> {model_name} >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+            prompt = prompt_func(text)
+            result = model.generateTextPipe(prompt)
+            print(result)
+            json_result = json.loads(re.search(pattern, result).group())
+            print(f"{model_name}:", json_result)
+            return json_result
+        except Exception as e:
+            with open("error.txt","a", encoding="utf-8") as f:
+                f.write(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+                f.write(result)
+                f.write(f"[ERROR] {model_name} gagal memproses index {index}: {e}")
+                f.write(f"Mengulang kembali proses untuk {model_name}...{retries}\n")
+            print(f"[ERROR] {model_name} gagal memproses index {index}: {e}")
+            print(f"Mengulang kembali proses untuk {model_name}...{retries}\n")
+            retries+=1
 
 modelMistral = Mistral()
 # promptMistral = Template.promptStory("adventure","tarzan from the jugler")
@@ -51,29 +70,30 @@ try:
     for index ,row in dftest.iloc[(start_index or 0):].iterrows():
         print(f"============================== {index} ======================================")
         teks = row['text']
-        promptMistral = Template.promptSentimentAnalysis(teks)
-        resultMistral = modelMistral.generateTextPipe(promptMistral)
-        print(resultMistral)
-        jsontextMistral = json.loads(re.search(json_pattern,resultMistral).group())
+        text_indices.append(index)
+        # promptMistral = Template.promptSentimentAnalysis(teks)
+        # resultMistral = modelMistral.generateTextPipe(promptMistral)
+        # print(resultMistral)
+        # jsontextMistral = json.loads(re.search(json_pattern,resultMistral).group())
+        jsontextMistral=process_model(modelMistral,Template.promptSentimentAnalysis,teks,json_pattern,"Mistral")
         resultPredicMistral.append(jsontextMistral)
-        print("Mistral")
         print(jsontextMistral)
         print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-        text_indices.append(index)
-        promptLLAMA = Template.promptSentimentAnalysis(teks)
-        resultLLAMA = modelLLAMA.generateTextPipe(promptLLAMA)
-        print(resultLLAMA)
-        jsontextLLAMA = json.loads(re.search(json_pattern,resultLLAMA).group())
+
+        # promptLLAMA = Template.promptSentimentAnalysis(teks)
+        # resultLLAMA = modelLLAMA.generateTextPipe(promptLLAMA)
+        # print(resultLLAMA)
+        # jsontextLLAMA = json.loads(re.search(json_pattern,resultLLAMA).group())
+        jsontextLLAMA = process_model(modelLLAMA,Template.promptSentimentAnalysis,teks,json_pattern,"LLAMA")
         resultpredicLLAMA.append(jsontextLLAMA)
-        print("LLAMA")
         print(jsontextLLAMA)
         print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-        promptGemma = Template.promptSentimentAnalysis(teks)
-        resultGEmma = modelGemma.generateTextPipe(promptGemma)
-        print(resultGEmma)
-        jsontextGemma = json.loads(re.search(json_pattern,resultGEmma).group())
+        # promptGemma = Template.promptSentimentAnalysis(teks)
+        # resultGEmma = modelGemma.generateTextPipe(promptGemma)
+        # print(resultGEmma)
+        # jsontextGemma = json.loads(re.search(json_pattern,resultGEmma).group())
+        jsontextGemma=process_model(modelGemma,Template.promptSentimentAnalysis,teks,json_pattern)
         resultpredicGemma.append(jsontextGemma)
-        print("Gemma")
         print(jsontextGemma)
         print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
 except KeyboardInterrupt:

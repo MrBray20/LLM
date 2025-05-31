@@ -24,7 +24,7 @@ class ModelStruktur:
         
         outputs = self.model.generate(
             input_ids=input_ids.input_ids,
-            max_new_tokens=100
+            max_new_tokens=500
         )
         
         return self.tokenizer.decode(outputs[0], skip_special_tokens=True)
@@ -42,7 +42,7 @@ class ModelStruktur:
         # Generate teks
         result = self.pipeline(
             prompt,
-            max_new_tokens=100,
+            max_new_tokens=500,
             temperature=0.7,
             do_sample=True
         )
