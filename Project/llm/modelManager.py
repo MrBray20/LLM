@@ -55,7 +55,7 @@ class ModelManager:
                 print(f"Model {model_name} gagal dijalankan: {e}")
         return results
     
-    def run_all_model_sentimen(self, on_result=None, **kwargs):
+    def run_all_model_sentiment(self, on_result=None, **kwargs):
         def process_model(model, prompt, pattern, model_name):
             while True:
                 try:
