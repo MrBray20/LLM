@@ -134,32 +134,57 @@
 # print(assistant_response)
 # # Ahoy, matey! I be Gemma, a digital scallywag, a language-slingin' parrot of the digital seas. I be here to help ye with yer wordy woes, answer yer questions, and spin ye yarns of the digital world.  So, what be yer pleasure, eh? 🦜
 
-from transformers import AutoTokenizer, AutoModelForCausalLM
+# from transformers import AutoTokenizer, AutoModelForCausalLM
+# import torch
+# # Disable Dynamo errors (Solution 2)
+# # torch._dynamo.config.suppress_errors = True
+
+# device = "cuda" if torch.cuda.is_available() else "cpu"
+# tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b-it")
+# model = AutoModelForCausalLM.from_pretrained(
+#     "google/gemma-2b-it",
+#     device_map="auto"  # Automatically handles CPU/GPU
+# )
+
+# def analyze_sentiment():
+#     prompt = f"""
+#         Analyze the sentiment of the following text and classify it as [POSITIVE/NEGATIVE/NEUTRAL]. 
+#         Provide the answer in JSON format with keys: "sentiment", "confidence" (0-1), and "explanation".
+
+#         Text: "I absolutely loved this movie! The acting was fantastic and the story was captivating."
+
+#         Answer:
+#         """
+#     inputs = tokenizer(prompt, return_tensors="pt").to(device)
+    
+#     with torch.no_grad():  # Reduces VRAM usage
+#         outputs = model.generate(**inputs, max_new_tokens=100)
+    
+#     return tokenizer.decode(outputs[0], skip_special_tokens=True)
+
+# print(analyze_sentiment())
+
+from transformers import pipeline
 import torch
-# Disable Dynamo errors (Solution 2)
-# torch._dynamo.config.suppress_errors = True
 
-device = "cuda" if torch.cuda.is_available() else "cpu"
-tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b-it")
-model = AutoModelForCausalLM.from_pretrained(
-    "google/gemma-2b-it",
-    device_map="auto"  # Automatically handles CPU/GPU
-)
+model_name = "unsloth/gemma-2b-it-bnb-4bit"
 
-def analyze_sentiment():
-    prompt = f"""
-        Analyze the sentiment of the following text and classify it as [POSITIVE/NEGATIVE/NEUTRAL]. 
-        Provide the answer in JSON format with keys: "sentiment", "confidence" (0-1), and "explanation".
+pipe = pipeline("text-generation",model=model_name, torch_dtype=torch.float16)
 
-        Text: "I absolutely loved this movie! The acting was fantastic and the story was captivating."
+prompt = """
+You see the following sequence of actions:
 
-        Answer:
-        """
-    inputs = tokenizer(prompt, return_tensors="pt").to(device)
-    
-    with torch.no_grad():  # Reduces VRAM usage
-        outputs = model.generate(**inputs, max_new_tokens=100)
-    
-    return tokenizer.decode(outputs[0], skip_special_tokens=True)
+John enters the room.
+He puts his keys on the table.
+He goes to the kitchen and opens the fridge.
+He pours a glass of water.
 
-print(analyze_sentiment())
+Where are John's keys now?
+
+Answer:
+"""
+
+output = pipe(prompt,max_new_tokens=200,temperature=0.7,do_sample=True)
+
+print(output[0]['generated_text'])
+

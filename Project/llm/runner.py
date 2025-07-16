@@ -2,11 +2,9 @@ from llm.modelManager import ModelManager
 from llm.template import Template
 class Runner:
     def __init__(self):
-        # ...
         self.manager = ModelManager()
         
     def run_model_task(self, model_name, **kwargs):
-        # ...
         try:
             result = self.manager.run_task(model_name, **kwargs)
             return result
@@ -14,8 +12,6 @@ class Runner:
             return f"Error: {str(e)}"
         
     def run_all(self,on_result,**kwargs):
-        # print(kwargs)
-        # ...
         task = kwargs["task"]
         if task == "Text Generation":
             try:

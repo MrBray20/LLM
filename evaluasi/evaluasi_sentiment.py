@@ -21,7 +21,7 @@ def extract_sentiments(row):
     })
 
 
-def evaluate_sentiment_analysis(y_true, y_pred, labels=['positive', 'neutral', 'negative']):
+def evaluate_sentiment_analysis(y_true, y_pred, labels=['positive', 'neutral', 'negative','mixed']):
     """
     Fungsi untuk mengevaluasi model analisis sentimen
     
@@ -168,12 +168,12 @@ def proses_pandas(data):
     return res 
 
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-# test1 = pd.read_csv(r"D:\SKRIPSI\Code Program\evaluasi\test1.csv", delimiter=',')
-# test1 = proses_pandas(test1)
+test1 = pd.read_csv(r"D:\SKRIPSI\Code Program\evaluasi\test1.csv", delimiter=',')
+test1 = proses_pandas(test1)
 # print(test1)
-# test1_mistral = test1['sentiment_mistral']
-# test1_llama = test1['sentiment_llama']
-# test1_gemma = test1['sentiment_gemma']
+test1_mistral = test1['sentiment_mistral']
+test1_llama = test1['sentiment_llama']
+test1_gemma = test1['sentiment_gemma']
 
 # #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -240,42 +240,42 @@ datatest_predic_concate=pd.concat([datatest_predic, datatest_predic_3000])
 print(datatest_predic_concate)
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Hasil Mistral >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-print("------------------------------------------- Test 2 Mistral -------------------------------------------")
-evaluate_sentiment_analysis(datatest_predic_concate,test2_mistral_concate)
-print("------------------------------------------- Test 3 Mistral -------------------------------------------")
-evaluate_sentiment_analysis(datatest_predic_concate,test3_mistral_concate)
+# print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Hasil Mistral >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+# print("------------------------------------------- Test 2 Mistral -------------------------------------------")
+# evaluate_sentiment_analysis(datatest_predic_concate,test2_mistral_concate)
+# print("------------------------------------------- Test 3 Mistral -------------------------------------------")
+# evaluate_sentiment_analysis(datatest_predic_concate,test3_mistral_concate)
 # print("------------------------------------------- Test 3 Mistral -------------------------------------------")
 # evaluate_sentiment_analysis(datatest_predic_concate,test3_mistral)
 
 
-print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Hasil LLAMA >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-print("------------------------------------------- Test 2 LLAMA -------------------------------------------")
-evaluate_sentiment_analysis(datatest_predic_concate,test2_llama_concate)
-print("------------------------------------------- Test 3 LLAMA -------------------------------------------")
-evaluate_sentiment_analysis(datatest_predic_concate,test3_llama_concate)
+# print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Hasil LLAMA >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+# print("------------------------------------------- Test 2 LLAMA -------------------------------------------")
+# evaluate_sentiment_analysis(datatest_predic_concate,test2_llama_concate)
+# print("------------------------------------------- Test 3 LLAMA -------------------------------------------")
+# evaluate_sentiment_analysis(datatest_predic_concate,test3_llama_concate)
 # print("------------------------------------------- Test 3 LLAMA -------------------------------------------")
 # evaluate_sentiment_analysis(datatest_predic_concate,test3_llama)
 
 
 
-print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Hasil Gemma >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-print("------------------------------------------- Test 2 Gemma -------------------------------------------")
-evaluate_sentiment_analysis(datatest_predic_concate,test2_gemma_concate)
-print("------------------------------------------- Test 3 Gemma -------------------------------------------")
-evaluate_sentiment_analysis(datatest_predic_concate,test3_gemma_concate)
+# print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Hasil Gemma >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+# print("------------------------------------------- Test 2 Gemma -------------------------------------------")
+# evaluate_sentiment_analysis(datatest_predic_concate,test2_gemma_concate)
+# print("------------------------------------------- Test 3 Gemma -------------------------------------------")
+# evaluate_sentiment_analysis(datatest_predic_concate,test3_gemma_concate)
 # print("------------------------------------------- Test 3 Gemma -------------------------------------------")
 # evaluate_sentiment_analysis(datatest_predic_concate,test3_gemma)
 
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Hasil Mistral >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-# print("------------------------------------------- Test 1 Mistral -------------------------------------------")
-# evaluate_sentiment_analysis(datatest_predic,test1_mistral)
-# print("------------------------------------------- Test 2 Mistral -------------------------------------------")
-# evaluate_sentiment_analysis(datatest_predic,test2_mistral)
-# print("------------------------------------------- Test 3 Mistral -------------------------------------------")
-# evaluate_sentiment_analysis(datatest_predic,test3_mistral)
+print("------------------------------------------- Test 1 Mistral -------------------------------------------")
+evaluate_sentiment_analysis(datatest_predic,test1_mistral)
+print("------------------------------------------- Test 2 Mistral -------------------------------------------")
+evaluate_sentiment_analysis(datatest_predic,test2_mistral)
+print("------------------------------------------- Test 3 Mistral -------------------------------------------")
+evaluate_sentiment_analysis(datatest_predic,test3_mistral)
 
 
 # print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Hasil LLAMA >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")

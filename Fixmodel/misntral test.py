@@ -96,9 +96,8 @@
 
 # print(analyze_sentiment())
 
-from transformers import pipeline, TextStreamer
+from transformers import pipeline
 import torch
-
 
 pipeline = pipeline(model="unsloth/mistral-7b-instruct-v0.3-bnb-4bit", torch_dtype=torch.bfloat16)
 prompt = """Let's go through this step-by-step:
@@ -109,8 +108,9 @@ prompt = """Let's go through this step-by-step:
 5. Your partner eats 2 muffins, leaving you with 12 muffins.
 If you eat 6 muffins, how many are left?"""
 
-outputs = pipeline(prompt, max_new_tokens=100, do_sample=True, top_k=10)
+outputs = pipeline(prompt, max_new_tokens=500, do_sample=True, top_k=10)
 print(outputs)
+
 # for output in outputs:
 #     print(f"Result: {output['generated_text']}")
 

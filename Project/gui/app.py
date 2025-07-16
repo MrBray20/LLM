@@ -49,7 +49,7 @@ class App():
 
         # self.current_task = "Sentiment Analysis"
         self.current_task = "Text Generation"
-        dpg.create_viewport(title="LLM Application", width=1250, height=700) # Increased height
+        dpg.create_viewport(title="LLM Application", width=1350, height=800) # Increased height
         dpg.setup_dearpygui()
         self.add_font() # Load fonts before creating the UI
         self.run_app()
@@ -241,17 +241,17 @@ class App():
                         model_name_x, model_name_y = dpg.get_item_pos(tag_model_name_text)
                         # Position copy button to the right of the model name in the header group
                         dpg.set_item_pos(tag_copy_button, [child_width - copy_button_width - 15, model_name_y])
-
-
+        
         if dpg.does_item_exist("warning_modal"):
             viewport_width = dpg.get_viewport_width()
             viewport_height = dpg.get_viewport_height()
 
             window_width = dpg.get_item_width("warning_modal")
             window_height = dpg.get_item_height("warning_modal")
-
+            
             x_pos = (viewport_width / 2) - (window_width / 2)
             y_pos = (viewport_height / 2) - (window_height / 2)
+            
             dpg.set_item_pos("warning_modal", [x_pos, y_pos])
 
 
@@ -259,10 +259,10 @@ class App():
     def add_font(self):
         with dpg.font_registry():
             # Default font size
-            default_font = dpg.add_font("gui/NotoSans-Medium.ttf", 16, tag="default_font")
+            default_font = dpg.add_font("gui/NotoSans-Medium.ttf", 24, tag="default_font")
             dpg.bind_font(default_font)
             # Larger font for titles
-            dpg.add_font("gui/NotoSans-Medium.ttf", 24, tag="large_font") # Increased font size for titles
+            dpg.add_font("gui/NotoSans-Medium.ttf", 32, tag="large_font") # Increased font size for titles
 
     def individual_model_callback(self, sender, app_data, user_data):
         all_checked = True
@@ -350,14 +350,14 @@ class App():
         if dpg.does_item_exist(self.loading_spinner_tags[model_name_lower]):
             dpg.hide_item(self.loading_spinner_tags[model_name_lower])
         if dpg.does_item_exist(self.status_text_tags[model_name_lower]):
-            dpg.set_value(self.status_text_tags[model_name_lower], "Done") # Update status to Done
+            dpg.hide_item(self.status_text_tags[model_name_lower])
 
         if self.current_task == "Sentiment Analysis":
             sentiment_tag = self.sentiment_tags.get(model_name_lower)
             explanation_tag = self.explanation_tags.get(model_name_lower)
 
             if sentiment_tag and explanation_tag:
-                sentiment_label = result.get("sentiment", "N/A") # Default to N/A
+                sentiment_label = result.get("sentiment", "N/A")
                 explanation_text = result.get("explanation", "No explanation provided.")
 
                 dpg.set_value(sentiment_tag, sentiment_label)
@@ -387,7 +387,8 @@ class App():
             dpg.add_text(message)
             dpg.add_spacer(height=10)
             dpg.add_button(label="OK", width=-1, callback=lambda: dpg.delete_item("warning_modal"))
-
+        
+        time.sleep(0.01)
         dpg.set_frame_callback(dpg.get_frame_count() + 1, self.update_layout)
 
     def copy_to_clipboard_callback(self, sender, app_data, user_data):
@@ -407,7 +408,10 @@ class App():
 
 
     def is_single_word_surrounded_by_special_chars(self, text):
-        match = re.fullmatch(r"^\W*(\w+)\W*$", text)
-        if match:
-            return any(char.isalnum() for char in match.group(1))
+    # Hitung jumlah kata (berisi huruf/angka minimal 1 karakter)
+        words = re.findall(r'\b\w+\b', text)
+        
+        if len(words) < 5:
+            return True
+        
         return False

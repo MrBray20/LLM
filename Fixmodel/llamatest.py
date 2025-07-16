@@ -145,44 +145,20 @@
 # print(response)
 
 
-from transformers import pipeline, AutoTokenizer, BitsAndBytesConfig
+from transformers import pipeline
 import torch
 
-# Konfigurasi 4-bit
-bnb_config = BitsAndBytesConfig(
-    load_in_4bit=True,
-    bnb_4bit_quant_type="nf4",
-    bnb_4bit_compute_dtype=torch.float16
-)
-# unsloth/gemma-2b-it-bnb-4bit
-# Load tokenizer dan model
-# "unsloth/Llama-3.2-3B-Instruct-bnb-4bit"
-model_name = "unsloth/mistral-7b-instruct-v0.3-bnb-4bit"
-tokenizer = AutoTokenizer.from_pretrained(model_name)
+model_name = "unsloth/Llama-3.2-3B-Instruct-bnb-4bit"
 
-# Buat pipeline untuk text-generation
-pipe = pipeline(
-    "text-generation",
-    model=model_name,
-    tokenizer=tokenizer,
-    # device_map="auto",  # Auto-load ke GPU jika tersedia
-    # quantization_config=bnb_config,  # Aktifkan 4-bit
-    torch_dtype=torch.float16
-)
+pipe = pipeline("text-generation",model=model_name, torch_dtype=torch.float16)
 
-# Contoh penggunaan
-prompt = """Analyze the sentiment of the following text and classify it as [POSITIVE/NEGATIVE/NEUTRAL]. 
-Provide the answer in JSON format with keys: "sentiment", "confidence" (0-1), and "explanation".
+prompt = """
+Alice is older than Ben.
+Ben is older than Charlie.
+Charlie is younger than Alice.
 
-Text: "I'm really disappointed with this purchase. The quality is much lower than I expected."
+Who is the youngest?"""
 
-Answer:"""
-
-output = pipe(
-    prompt,
-    max_new_tokens=200,
-    temperature=0.7,
-    do_sample=True
-)
+output = pipe(prompt,max_new_tokens=200,temperature=0.7,do_sample=True)
 
 print(output[0]['generated_text'])
